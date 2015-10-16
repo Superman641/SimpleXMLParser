@@ -1,2 +1,2 @@
 # SimpleXMLParser
-Just a simple XML parser on Java (using JAXB)
+Just a simple XML to Java converter(using JAXB) and Java to JSON converter
