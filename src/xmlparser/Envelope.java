@@ -1,28 +1,31 @@
 package xmlparser;
 
 import java.util.ArrayList;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.InputStream;
 import javax.xml.bind.annotation.*;
 import com.fasterxml.jackson.annotation.*;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
-
-/**
- *
- * @author asus
- */
 @JsonRootName(value = "Envelope")
 @XmlRootElement(name = "Envelope")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlAccessorOrder(XmlAccessOrder.UNDEFINED)
 public class Envelope 
 {
+   //initializing logger
+   public static final InputStream logis = Bootstrap.class.getResourceAsStream("../properties/log4j.properties");
+   private static Logger logger = Logger.getLogger(XMLParser.getCurrentClassName());
+   static{PropertyConfigurator.configure(logis);}
    
    private Body body;
+
+   public Envelope() 
+   {
+      logger.debug("object of class Envelope created");
+   }
    
-  
+   
    public Body getBody() {
       return body;
    }
@@ -62,7 +65,6 @@ class SendPayment
    private int page;
    private ArrayList<Field> field;
    
-   
    public String getToken() {
       return token;
    }
@@ -94,11 +96,13 @@ class SendPayment
    public ArrayList<Field> getField() {
       return field;
    }
+   
    @JsonProperty("token")
    @XmlElement
    public void setToken(String token) {
       this.token = token;
    }
+   
    @JsonProperty("cardNumber")
    @XmlElement
    public void setCardNumber(String cardNumber) {
@@ -110,26 +114,31 @@ class SendPayment
    public void setRequestId(String requestId) {
       this.requestId = requestId;
    }
+   
    @JsonProperty("amount")
    @XmlElement
    public void setAmount(double amount) {
       this.amount = amount;
    }
+   
    @JsonProperty("currency")
    @XmlElement
    public void setCurrency(String currency) {
       this.currency = currency;
    }
+   
    @JsonProperty("account")
    @XmlElement(name = "account", namespace = "wsapi:Utils")
    public void setAccount(ArrayList<Account> account) {
       this.account = account;
    }
+   
    @JsonProperty("page")
    @XmlElement
    public void setPage(int page) {
       this.page = page;
    }
+   
    @JsonProperty("field")
    @XmlElement
    public void setField(ArrayList<Field> field) {
@@ -143,7 +152,6 @@ class Account
    private String type;
    private String account;
    
-   
    public String getType() {
       return type;
    }
@@ -152,11 +160,13 @@ class Account
    public String getValue() {
       return account;
    }
+   
    @JsonValue
    @XmlAttribute
    public void setType(String type) {
       this.type = type;
    }
+   
    @JsonValue
    @XmlValue
    public void setValue(String account) {
@@ -176,11 +186,13 @@ class Field
    public String getValue() {
       return value;
    }
+   
    @JsonValue
    @XmlAttribute
    public void setId(String id) {
       this.id = id;
    }
+   
    @JsonValue
    @XmlAttribute
    public void setValue(String value) {
